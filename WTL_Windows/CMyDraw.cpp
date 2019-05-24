@@ -36,16 +36,12 @@ void CMyDrawStraightLine::draw(CDCHandle dc) {
 	
 }
 
-void CMyDrawStraightLine::serialize(char* filename) {
-	FILE* file;
+void CMyDrawStraightLine::serialize(FILE* file) {
 	m_Type = drawType();
-	if (file = fopen(filename, "at")) {
-		fwrite(&m_Type, sizeof(DrawType), 1, file);
-		fwrite(&m_Color, sizeof(COLORREF), 1, file);
-		fwrite(&iLine, sizeof(int), 1, file);
-		fwrite(&m_linepoint, sizeof(LinePoint), 1, file);
-	}
-	fclose(file);
+	fwrite(&m_Type, sizeof(DrawType), 1, file);
+	fwrite(&m_Color, sizeof(COLORREF), 1, file);
+	fwrite(&iLine, sizeof(int), 1, file);
+	fwrite(&m_linepoint, sizeof(LinePoint), 1, file);
 }
 void CMyDrawStraightLine::deserialize(FILE* file) {
 	int ret;
@@ -75,7 +71,7 @@ void CMyDrawRectangle::addmovepoint(long x, long y) {
 void CMyDrawRectangle::addendpoint(long x, long y) {
 
 }
-void CMyDrawRectangle::serialize(char* filename) {
+void CMyDrawRectangle::serialize(FILE* file) {
 
 }
 void CMyDrawRectangle::deserialize(FILE* file) {

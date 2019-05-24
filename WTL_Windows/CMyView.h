@@ -3,7 +3,8 @@
 
 //在绘图中，每一条线都是一个对象，每一个矩形或者圆都是单独的一个对象
 struct CMyView : CWindowImpl<CMyView>,
-				 CDoubleBufferImpl<CMyView>
+				 CDoubleBufferImpl<CMyView>,
+				 CMessageFilter
 {
 	CMyView();
 	~CMyView();

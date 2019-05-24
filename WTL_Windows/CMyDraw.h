@@ -17,7 +17,7 @@ struct CMyDrawStraightLine : Geometry ,Symbol{
 	void addbeginpoint(long x, long y);
 	void addmovepoint(long x, long y);
 	void addendpoint(long x, long y);
-	void serialize(char* filename);
+	void serialize(FILE* file);
 	void deserialize(FILE* file);
 private:
 	//std::vector<LinePoint> vecLinePoint;
@@ -34,7 +34,7 @@ struct CMyDrawRectangle : Geometry ,Symbol{
 	void addbeginpoint(long x, long y);
 	void addmovepoint(long x, long y);
 	void addendpoint(long x, long y);
-	void serialize(char* filename);
+	void serialize(FILE* file);
 	void deserialize(FILE* file);
 
 };

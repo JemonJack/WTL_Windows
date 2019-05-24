@@ -19,7 +19,7 @@ struct Geometry
 	};
 	virtual DrawType drawType() { return m_Type; }
 	virtual void draw(CDCHandle dc) = 0;
-	virtual void serialize(char* filename) = 0;
+	virtual void serialize(FILE* file) = 0;
 	virtual void deserialize(FILE* file) = 0;
 	virtual void addbeginpoint(long x, long y) = 0;
 	virtual void addmovepoint(long x, long y) = 0;

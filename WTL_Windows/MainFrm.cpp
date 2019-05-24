@@ -228,6 +228,7 @@ LRESULT CMainFrame::OnDrawRectangle(WORD wNotifyCode, WORD wID, HWND hWndCtrl, B
 	//else {
 	//	m_Cview.m_tmpGeometry = new CMyDrawRectangle;
 	//}
+	SendMessage(WM_ADD_OBJECT);
 	m_Cview.iCheckDrawType = 2;
 	UISetCheck(ID_DRAW_LINE, 0);
 	UISetCheck(ID_DRAW_RECTANGLE, 1);
@@ -239,9 +240,18 @@ LRESULT CMainFrame::OnFileSave(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BOOL& 
 	if (IDOK == filedlg.DoModal()) {
 		char cfilename[260] = { 0 };
 		memcpy(cfilename,filedlg.m_szFileName,260);
-		for (std::vector<Geometry*>::iterator it = m_Cview.vecgeometries.begin(); it != m_Cview.vecgeometries.end(); it++) {
-			(*it)->serialize(cfilename);
+		FILE* file;
+		if (!m_Cview.vecgeometries.size())
+			return -1;
+		if (file = fopen(cfilename, "wb")) {
+			int iCount = m_Cview.vecgeometries.size();
+			fwrite(&iCount, sizeof(int), 1, file);
+			for (std::vector<Geometry*>::iterator it = m_Cview.vecgeometries.begin(); it != m_Cview.vecgeometries.end(); it++) {
+				(*it)->serialize(file);
+			}
 		}
+		fclose(file);
+
 	}
 	return 0;
 }
@@ -253,10 +263,12 @@ LRESULT CMainFrame::OnFileOpen(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BOOL& 
 		memcpy(cfilename, filedialog.m_szFileName, 260);
 		FILE* file;
 		DrawType type;
-		char c;
-		fpos_t pos;
 		if (file = fopen(cfilename, "rb")) {
-			while (!feof(file))
+			int iCount = 0;
+			fread(&iCount, sizeof(int), 1, file);
+			if (!iCount)
+				return 0;
+			for (int i = 0;i<iCount;i++)
 			{
 				fread(&type, sizeof(int), 1, file);
 				switch (type)
@@ -269,10 +281,7 @@ LRESULT CMainFrame::OnFileOpen(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BOOL& 
 				default:
 					break;
 				}
-				fgetpos(file, &pos);
-				c = fgetc(file);
-				if (c != EOF)
-					fsetpos(file, &pos);
+				m_Cview.vecgeometries.push_back(m_Cview.m_tmpGeometry);
 			}
 		}
 		fclose(file);

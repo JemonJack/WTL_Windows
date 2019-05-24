@@ -14,6 +14,10 @@ CMyView::~CMyView()
 
 BOOL CMyView::PreTranslateMessage(MSG* msg) {
 	msg;
+	if (msg->message == WM_ADD_OBJECT)
+	{
+		int a = 0;
+	}
 	return FALSE;
 }
 
@@ -68,8 +72,6 @@ LRESULT CMyView::OnLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHan
 		vecgeometries.push_back(m_tmpGeometry);
 	}
 	bMouseDown = FALSE;
-	HWND hwnd = GetParent();	
-	SendMessage(hwnd,WM_ADD_OBJECT,(WPARAM)m_tmpGeometry,0);
 	Invalidate();
 	return 0;
 } 
