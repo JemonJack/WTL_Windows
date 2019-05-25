@@ -26,7 +26,6 @@ LRESULT ListViewCtrl::OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 
 void ListViewCtrl::Init() {
 	SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
-
 	InsertColumn(0, _T("Name"), LVCFMT_LEFT, 0, 0);
 	InsertColumn(1, _T("ColorLine"), LVCFMT_LEFT,0, 1);
 	InsertColumn(2, _T("Color"), LVCFMT_LEFT,0, 2);
@@ -44,17 +43,4 @@ void ListViewCtrl::Init() {
 	SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
 	SetColumnWidth(2, LVSCW_AUTOSIZE_USEHEADER);
 }
-LRESULT ListViewCtrl::OnAddObject(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
-	Geometry* tmpGeometry = (Geometry*)wParam;
-	switch (tmpGeometry->drawType())
-	{
-	case 0://Ö±Ïß
 
-		break;
-	case 1://¾ØÐÎ
-		break;
-	default:
-		break;
-	}
-	return 0;
-}

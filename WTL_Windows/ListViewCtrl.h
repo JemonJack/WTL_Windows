@@ -5,9 +5,9 @@ typedef CWinTraitsOR<LVS_REPORT | LVS_SINGLESEL | LVS_NOSORTHEADER> CListTraits;
 struct ListViewCtrl:CWindowImpl<ListViewCtrl,CListViewCtrl,CListTraits>,
 					CCustomDraw<ListViewCtrl>
 {
+	DECLARE_WND_SUPERCLASS(NULL, WC_LISTVIEW)
 	ListViewCtrl();
 	~ListViewCtrl();
-	DECLARE_WND_SUPERCLASS(NULL, WC_LISTVIEW)
 
 	BEGIN_MSG_MAP(ListViewCtrl)
 		MESSAGE_HANDLER(WM_CHANGECBCHAIN,OnChangeCBChain)
@@ -15,7 +15,6 @@ struct ListViewCtrl:CWindowImpl<ListViewCtrl,CListViewCtrl,CListTraits>,
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
 		CHAIN_MSG_MAP_ALT(CCustomDraw<ListViewCtrl>,1)
 		DEFAULT_REFLECTION_HANDLER()
-		MESSAGE_HANDLER(WM_ADD_OBJECT, OnAddObject)
 	END_MSG_MAP()
 
 	
@@ -26,7 +25,6 @@ struct ListViewCtrl:CWindowImpl<ListViewCtrl,CListViewCtrl,CListTraits>,
 
 	LRESULT OnChangeCBChain(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnDrawClipBoard(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-	LRESULT OnAddObject(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 	void Init();

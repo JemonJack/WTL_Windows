@@ -48,8 +48,6 @@ public:
 		COMMAND_ID_HANDLER(ID_TOOLS_OPTIONS,OnToolsOptions)
 		CHAIN_MSG_MAP(CUpdateUI<CMainFrame>)
 		CHAIN_MSG_MAP(CFrameWindowImpl<CMainFrame>)
-		//CHAIN_MSG_MAP_ALT_MEMBER(m_FormatListView,1)
-		//CHAIN_MSG_MAP_MEMBER(m_TreeList)
 	END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):

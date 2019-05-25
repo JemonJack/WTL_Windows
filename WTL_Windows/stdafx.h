@@ -31,6 +31,7 @@ extern CAppModule _Module;
 #include <atlctrlx.h>
 #include <atlddx.h>
 
+#include"Geometry.h"
 enum DrawType
 {
 	straightLine,

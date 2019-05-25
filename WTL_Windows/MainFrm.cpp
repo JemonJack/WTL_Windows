@@ -83,6 +83,8 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	//m_HorSplitter.SetSplitterExtendedStyle(SPLIT_FIXEDBARSIZE);
 	m_FormatListView.Init();
 	m_TreeList.init();
+	m_Cview.tree = &m_TreeList;
+	m_Cview.format = &m_FormatListView;
 
 	//else
 	iColorLine = 0;
@@ -209,26 +211,14 @@ LRESULT CMainFrame::OnToolsOptions(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BO
 }
 
 LRESULT CMainFrame::OnDrawLine(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BOOL& bHandled) {
-	//if (m_Cview.m_tmpGeometry != NULL) {
-	//	delete m_Cview.m_tmpGeometry;
-	//	m_Cview.m_tmpGeometry = NULL;
-	//}
-	//else {
-	//	m_Cview.m_tmpGeometry = new CMyDrawStraightLine;
-	//}
+
 	m_Cview.iCheckDrawType = 1;
 	UISetCheck(ID_DRAW_LINE,1);
 	UISetCheck(ID_DRAW_RECTANGLE, 0);
 	return 0;
 }
 LRESULT CMainFrame::OnDrawRectangle(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BOOL& bHandled) {
-	//if (m_Cview.m_tmpGeometry != NULL) {
-	//	delete m_Cview.m_tmpGeometry;
-	//}
-	//else {
-	//	m_Cview.m_tmpGeometry = new CMyDrawRectangle;
-	//}
-	SendMessage(WM_ADD_OBJECT);
+
 	m_Cview.iCheckDrawType = 2;
 	UISetCheck(ID_DRAW_LINE, 0);
 	UISetCheck(ID_DRAW_RECTANGLE, 1);
@@ -238,12 +228,12 @@ LRESULT CMainFrame::OnDrawRectangle(WORD wNotifyCode, WORD wID, HWND hWndCtrl, B
 LRESULT CMainFrame::OnFileSave(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BOOL& bHandled) {
 	CFileDialog filedlg(FALSE);
 	if (IDOK == filedlg.DoModal()) {
-		char cfilename[260] = { 0 };
-		memcpy(cfilename,filedlg.m_szFileName,260);
+		USES_CONVERSION;
+		char* cfilename = T2A(filedlg.m_szFileName);
 		FILE* file;
 		if (!m_Cview.vecgeometries.size())
 			return -1;
-		if (file = fopen(cfilename, "wb")) {
+		if (file = fopen(filedlg.m_szFileName, "wb")) {
 			int iCount = m_Cview.vecgeometries.size();
 			fwrite(&iCount, sizeof(int), 1, file);
 			for (std::vector<Geometry*>::iterator it = m_Cview.vecgeometries.begin(); it != m_Cview.vecgeometries.end(); it++) {
@@ -251,7 +241,6 @@ LRESULT CMainFrame::OnFileSave(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BOOL& 
 			}
 		}
 		fclose(file);
-
 	}
 	return 0;
 }
@@ -259,11 +248,11 @@ LRESULT CMainFrame::OnFileSave(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BOOL& 
 LRESULT CMainFrame::OnFileOpen(WORD wNotifyCode, WORD wID, HWND hWndCtrl, BOOL& bHandled) {
 	CMyFileDialog filedialog(TRUE);
 	if (filedialog.DoModal() == IDOK) {
-		char cfilename[260] = { 0 };
-		memcpy(cfilename, filedialog.m_szFileName, 260);
+		USES_CONVERSION;
+		char* cfilename = T2A(filedialog.m_szFileName);
 		FILE* file;
 		DrawType type;
-		if (file = fopen(cfilename, "rb")) {
+		if (file = fopen(filedialog.m_szFileName, "rb")) {
 			int iCount = 0;
 			fread(&iCount, sizeof(int), 1, file);
 			if (!iCount)

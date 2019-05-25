@@ -19,7 +19,7 @@ struct CMyDrawStraightLine : Geometry ,Symbol{
 	void addendpoint(long x, long y);
 	void serialize(FILE* file);
 	void deserialize(FILE* file);
-private:
+
 	//std::vector<LinePoint> vecLinePoint;
 	LinePoint m_linepoint;
 };
