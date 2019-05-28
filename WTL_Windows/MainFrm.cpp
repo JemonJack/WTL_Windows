@@ -81,8 +81,8 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	m_HorSplitter.SetSplitterPanes(m_Cview,m_PaneFormat);
 	//m_VerSplitter.SetSplitterExtendedStyle(SPLIT_FIXEDBARSIZE);
 	//m_HorSplitter.SetSplitterExtendedStyle(SPLIT_FIXEDBARSIZE);
-	m_FormatListView.Init();
-	m_TreeList.init();
+	//m_FormatListView.Init();
+	//m_TreeList.init();
 	m_Cview.tree = &m_TreeList;
 	m_Cview.format = &m_FormatListView;
 

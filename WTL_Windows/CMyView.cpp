@@ -76,19 +76,29 @@ LRESULT CMyView::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHan
 }
 
 void CMyView::addTreeView() {
-	HTREEITEM hRoot;
+	HTREEITEM hlineRoot,hrecRoot;
+	CString msg;
+	tree->DeleteAllItems();
+	hlineRoot = tree->InsertItem(_T("Line"),TVI_ROOT,TVI_LAST);
+	hrecRoot = tree->InsertItem(_T("Rectangle"), TVI_ROOT, TVI_LAST);
+
 	for(std::vector<Geometry*>::iterator p = vecgeometries.begin(), e = vecgeometries.end(); p != e; ++p) {
 		Geometry* tmp = (*p);
 		int type = tmp->drawType();
 		switch(type) {
-		case 0:				//line
-
+		case straightLine: {
+			CMyDrawStraightLine* line = (CMyDrawStraightLine*)(*p);
+			CString msg;
+			msg.Format("(%d,%d)(%d,%d)", line->m_linepoint.begin.x,line->m_linepoint.begin.y,line->m_linepoint.end.x,line->m_linepoint.end.y);
+			tree->InsertItem(msg,hlineRoot,TVI_LAST);
 			break;
-		case 1:
+		}
+		case rectangle:{}
 			break;
 		default:
 			break;
 		}
 	}
-	hRoot = tree->InsertItem(_T(""),TVI_ROOT,TVI_LAST);
+	tree->Expand(hlineRoot,TVE_EXPAND);
+	tree->Expand(hrecRoot, TVE_EXPAND);
 }
