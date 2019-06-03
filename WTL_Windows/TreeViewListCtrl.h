@@ -10,8 +10,9 @@ struct TreeViewListCtrl: CWindowImpl<TreeViewListCtrl,CTreeViewCtrl,CTreeViewTra
 	~TreeViewListCtrl();
 
 	BEGIN_MSG_MAP(TreeViewListCtrl)
+		REFLECTED_NOTIFY_CODE_HANDLER(TVN_SELCHANGED, OnSelectItem)
+		CHAIN_MSG_MAP_ALT(CCustomDraw<TreeViewListCtrl>, 1)	
 		DEFAULT_REFLECTION_HANDLER()
-		CHAIN_MSG_MAP_ALT(CCustomDraw<TreeViewListCtrl>,1)
 	END_MSG_MAP()
 
 
@@ -23,5 +24,6 @@ struct TreeViewListCtrl: CWindowImpl<TreeViewListCtrl,CTreeViewCtrl,CTreeViewTra
 	void init();
 	void showlinedata(LPARAM lParam);
 	void showrectangledata(LPARAM lParam);
+	LRESULT OnSelectItem(int idCtrl, LPNMHDR pnmh, BOOL& bHandled);
 };
 

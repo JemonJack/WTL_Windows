@@ -54,3 +54,18 @@ void TreeViewListCtrl::showlinedata(LPARAM lParam) {
 void TreeViewListCtrl::showrectangledata(LPARAM lParam) {
 
 }
+
+LRESULT TreeViewListCtrl::OnSelectItem(int idCtrl, LPNMHDR pnmh, BOOL& bHandled) {
+	HTREEITEM item = GetSelectedItem();	
+	CString msg;
+	GetItemText(item,msg);
+	LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)pnmh;
+	if (pnmtv->action&TVE_COLLAPSE) {
+		return TRUE;
+	}
+	else {
+		return FALSE;
+	}
+	int a;
+	return 0;
+}

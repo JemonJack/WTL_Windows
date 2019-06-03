@@ -29,9 +29,9 @@ void ListViewCtrl::Init() {
 	InsertColumn(0, _T("Name"), LVCFMT_LEFT, 0, 0);
 	InsertColumn(1, _T("ColorLine"), LVCFMT_LEFT,0, 1);
 	InsertColumn(2, _T("Color"), LVCFMT_LEFT,0, 2);
-	InsertItem(0,_T("Jack"));
-	SetItemText(0, 1, _T("123"));
-	SetItemText(0, 2, _T("98563"));
+	//InsertItem(0,_T("Jack"));
+	//SetItemText(0, 1, _T("123"));
+	//SetItemText(0, 2, _T("98563"));
 	//InsertItem(1, _T("Rose"));
 	//SetItemText(1,1,_T("Hi"));
 	//SetItemText(1, 2, _T("321"));

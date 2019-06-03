@@ -48,6 +48,7 @@ public:
 		COMMAND_ID_HANDLER(ID_TOOLS_OPTIONS,OnToolsOptions)
 		CHAIN_MSG_MAP(CUpdateUI<CMainFrame>)
 		CHAIN_MSG_MAP(CFrameWindowImpl<CMainFrame>)
+		REFLECT_NOTIFICATIONS()//消息反射，将父窗口未处理的消息传递给子窗口
 	END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):

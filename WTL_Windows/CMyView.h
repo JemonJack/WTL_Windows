@@ -40,8 +40,10 @@ struct CMyView : CWindowImpl<CMyView>,
 	int iCheckDrawType; //=1»­Ïß =2»­¾ØÐÎ,Ä¬ÈÏ=0
 
 	void addTreeView();
+	void addFormatInfo();
 
 private:
 	BOOL bMouseDown;
+	CString ColorToCString(COLORREF color);
 };
 
