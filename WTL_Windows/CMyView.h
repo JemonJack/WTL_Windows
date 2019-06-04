@@ -1,7 +1,7 @@
 #pragma once
 #include "CMyDraw.h"
 struct TreeViewListCtrl;
-struct ListViewCtrl;
+
 
 //在绘图中，每一条线都是一个对象，每一个矩形或者圆都是单独的一个对象
 struct CMyView : CWindowImpl<CMyView>,
@@ -10,7 +10,7 @@ struct CMyView : CWindowImpl<CMyView>,
 	CMyView();
 	~CMyView();
 	TreeViewListCtrl* tree;
-	ListViewCtrl*   format;
+
 
 	BEGIN_MSG_MAP(CMyView)
 		MESSAGE_HANDLER(WM_LBUTTONDOWN, OnLButtonDown)
@@ -40,10 +40,11 @@ struct CMyView : CWindowImpl<CMyView>,
 	int iCheckDrawType; //=1画线 =2画矩形,默认=0
 
 	void addTreeView();
-	void addFormatInfo();
+
+	int randID();
 
 private:
 	BOOL bMouseDown;
-	CString ColorToCString(COLORREF color);
+
 };
 

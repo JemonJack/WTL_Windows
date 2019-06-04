@@ -4,6 +4,7 @@ struct Symbol {
 	Symbol();
 	int iLine;
 	COLORREF m_Color;
+
 };
 
 
@@ -24,7 +25,7 @@ struct Geometry
 	virtual void addbeginpoint(long x, long y) = 0;
 	virtual void addmovepoint(long x, long y) = 0;
 	virtual void addendpoint(long x, long y) = 0;
-
+	int id;
 protected:
 	DrawType m_Type;
 };

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CMyView.h"
 #include "TreeViewListCtrl.h"
-#include "ListViewCtrl.h"
+#include <time.h>
 
 CMyView::CMyView():iLine(0),m_Color(RGB(255,0,0)),bMouseDown(FALSE),iCheckDrawType(0)
 {
@@ -56,9 +56,10 @@ LRESULT CMyView::OnLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHan
 	bMouseDown = FALSE;
 	if (m_tmpGeometry != NULL) {
 		m_tmpGeometry->addendpoint(x, y);
+		m_tmpGeometry->id = randID();
 		vecgeometries.push_back(m_tmpGeometry);
+		tree->geo.push_back(m_tmpGeometry);
 		addTreeView();
-		addFormatInfo();
 	}	
 	Invalidate();
 	return 0;
@@ -90,7 +91,7 @@ void CMyView::addTreeView() {
 		case straightLine: {
 			CMyDrawStraightLine* line = (CMyDrawStraightLine*)(*p);
 			CString msg;
-			msg.Format("(%d,%d)(%d,%d)", line->m_linepoint.begin.x,line->m_linepoint.begin.y,line->m_linepoint.end.x,line->m_linepoint.end.y);
+			msg.Format("%d", line->id);
 			tree->InsertItem(msg,hlineRoot,TVI_LAST);
 			break;
 		}
@@ -103,49 +104,13 @@ void CMyView::addTreeView() {
 	tree->Expand(hlineRoot,TVE_EXPAND);
 	tree->Expand(hrecRoot, TVE_EXPAND);
 }
-void CMyView::addFormatInfo() {
-	format->DeleteAllItems();
-	int colum = 0;
-	int colorline = 1;
-	for(std::vector<Geometry*>::iterator p = vecgeometries.begin(), e = vecgeometries.end(); p != e; ++p) {
-		Geometry* tmp = (*p);
-		int type = tmp->drawType();
-		switch(type) {
-		case straightLine: {
-			CMyDrawStraightLine* line = (CMyDrawStraightLine*)(*p);
-			format->InsertItem(colum, _T("Line"));
-			CString colorline;
-			colorline.Format("%d", line->iLine);
-			format->SetItemText(colum, 1, colorline);
-			CString color;
-			color = ColorToCString(line->m_Color);
-			format->SetItemText(colum, 2, color);
-			break;
-		}
-		case rectangle:{}
-					   break;
-		default:
-			break;
-		}
-		colum++;
-	}
-	colum = 0;
-	format->SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
-	format->SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
-	format->SetColumnWidth(2, LVSCW_AUTOSIZE_USEHEADER);
-}
 
-CString CMyView::ColorToCString(COLORREF color) {
-	CString value;
-	BYTE red = GetRValue(color);
-	BYTE green = GetGValue(color);
-	BYTE blue = GetBValue(color);
-	char chr[4];
-	itoa(red, chr, 10);
-	char chg[4];
-	itoa(green, chg, 10);
-	char chb[4];
-	itoa(blue, chb, 10);
-	value.Format("(%d,%d,%d)", _ttoi(chr), _ttoi(chg), _ttoi(chb));
-	return value;
+
+
+
+int CMyView::randID() {
+	int id;
+	srand((unsigned)time(NULL));
+	id = rand();
+	return id;
 }

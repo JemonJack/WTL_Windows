@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TreeViewListCtrl.h"
 #include "CMyDraw.h"
-
+#include "ListViewCtrl.h"
 
 TreeViewListCtrl::TreeViewListCtrl()
 {
@@ -57,15 +57,59 @@ void TreeViewListCtrl::showrectangledata(LPARAM lParam) {
 
 LRESULT TreeViewListCtrl::OnSelectItem(int idCtrl, LPNMHDR pnmh, BOOL& bHandled) {
 	HTREEITEM item = GetSelectedItem();	
-	CString msg;
-	GetItemText(item,msg);
-	LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)pnmh;
-	if (pnmtv->action&TVE_COLLAPSE) {
-		return TRUE;
-	}
-	else {
-		return FALSE;
-	}
-	int a;
+	CString msgID;
+	GetItemText(item,msgID);
+	int id = _ttoi(msgID);
+	addFormatInfo(id);
 	return 0;
+}
+
+void TreeViewListCtrl::addFormatInfo(int& id) {
+	format->DeleteAllItems();
+	int colum = 0;
+	int colorline = 1;
+	for(std::vector<Geometry*>::iterator p = geo.begin(), e = geo.end(); p != e; ++p) {
+		Geometry* tmp = (*p);
+		if(tmp->id == id) {
+			int type = tmp->drawType();
+			switch(type) {
+			case straightLine: {
+				CMyDrawStraightLine* line = (CMyDrawStraightLine*)(*p);
+				format->InsertItem(colum, _T("Line"));
+				CString colorline;
+				colorline.Format("%d", line->iLine);
+				format->SetItemText(colum, 1, colorline);
+				CString color;
+				color = ColorToCString(line->m_Color);
+				format->SetItemText(colum, 2, color);
+				break;
+			}
+			case rectangle:{}
+						   break;
+			default:
+				break;
+			}
+			colum++;
+		}
+
+	}
+	colum = 0;
+	format->SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+	format->SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
+	format->SetColumnWidth(2, LVSCW_AUTOSIZE_USEHEADER);
+}
+
+CString TreeViewListCtrl::ColorToCString(COLORREF color) {
+	CString value;
+	BYTE red = GetRValue(color);
+	BYTE green = GetGValue(color);
+	BYTE blue = GetBValue(color);
+	char chr[4];
+	itoa(red, chr, 10);
+	char chg[4];
+	itoa(green, chg, 10);
+	char chb[4];
+	itoa(blue, chb, 10);
+	value.Format("(%d,%d,%d)", _ttoi(chr), _ttoi(chg), _ttoi(chb));
+	return value;
 }

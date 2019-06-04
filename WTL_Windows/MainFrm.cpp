@@ -84,7 +84,7 @@ LRESULT CMainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/
 	m_FormatListView.Init();
 	//m_TreeList.init();
 	m_Cview.tree = &m_TreeList;
-	m_Cview.format = &m_FormatListView;
+	m_TreeList.format = &m_FormatListView;
 
 	//else
 	iColorLine = 0;
